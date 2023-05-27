@@ -22,6 +22,23 @@ export enum Role {
   USER = "user",
 }
 
+export enum BookingStatus {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  CANCELLED = "cancelled",
+}
+
+export enum PaymentStatus {
+  PENDING = "pending",
+  PAID = "paid",
+  FAILED = "failed",
+}
+
+export enum TicketStatus {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  AVAILABLE = "available",
+}
 export interface CreateBusInput {
   capacity: number;
 }
@@ -60,4 +77,35 @@ export interface UpdateScheduleInput {
   departure_time?: string;
   arrival_time?: string;
   fare?: Decimal;
+}
+
+export interface CreateTicketInput {
+  id: string;
+  user_id: string;
+  booking_id: string;
+  schedule_id: string;
+  bus_id: string;
+  seat_number: string;
+  fare: Decimal;
+  status: TicketStatus;
+}
+
+export interface BookingInput {
+  id: string;
+  user_id: string;
+  total_fare: Decimal;
+  status: BookingStatus;
+}
+
+export interface PaymentInput {
+  id: string;
+  booking_id: string;
+  status: PaymentStatus;
+}
+
+export interface UpdateBookingInput {
+  id: string;
+  user_id?: string;
+  total_fare?: Decimal;
+  status?: BookingStatus;
 }
