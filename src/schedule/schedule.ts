@@ -23,7 +23,10 @@ export async function deleteSchedule(scheduleId: string) {
 }
 
 export async function getScheduleById(scheduleId: string) {
-  return await prisma.schedule.findUnique({ where: { id: scheduleId } });
+  let schedule = await prisma.schedule.findUnique({
+    where: { id: scheduleId },
+  });
+  return schedule;
 }
 
 export async function getAllSchedules() {

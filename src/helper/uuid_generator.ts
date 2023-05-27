@@ -20,3 +20,13 @@ export async function generateRouteUUID() {
   let genUUID = uuidv4();
   return genUUID.slice(0, 2);
 }
+
+export async function generateTicketUUID() {
+  let genUUID = uuidv4();
+  return genUUID.slice(0, 8);
+}
+
+export async function generateBookingUUID() {
+  let genUUID = uuidv4();
+  return genUUID.slice(0, 10);
+}
