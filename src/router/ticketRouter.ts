@@ -17,7 +17,7 @@ import { generateTicketUUID } from "../helper/uuid_generator";
 import { getScheduleById } from "../schedule/schedule";
 import { CustomRequest, TicketStatus } from "../helper/interfaces";
 import { verifyAuth } from "../middleware/authorisation";
-import { syncTotalFare } from "../booking/booking";
+import { isValidBooking, syncTotalFare } from "../booking/booking";
 
 export const ticketRouter = express.Router();
 
@@ -74,6 +74,14 @@ ticketRouter.post("/add", verifyAuth, async (req: CustomRequest, res) => {
     fare,
     status,
   };
+
+  let available_seats = await getAvailableSeats(data.schedule_id);
+  if (!available_seats.map((s) => s.seat_number).includes(data.seat_number)) {
+    return res.json({ message: "Seat not available" });
+  }
+
+  let isBookingValid = await isValidBooking(data.booking_id);
+  if (!isBookingValid) return res.json({ message: "Booking is not valid" });
 
   return res.json({ message: await createTicket(data) });
 });

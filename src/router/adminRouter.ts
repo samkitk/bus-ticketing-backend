@@ -7,6 +7,6 @@ adminRouter.get("/", (req: CustomRequest, res: Response) => {
   return res.json({ message: "Hello Admin - dashboard" });
 });
 
-adminRouter.get("/users", (req: CustomRequest, res: Response) => {
-  return res.json({ message: "Hello Admin - users" });
+adminRouter.get("/ping", (req: CustomRequest, res: Response) => {
+  return res.json({ message: "Hello Admin - pong!" });
 });

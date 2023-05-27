@@ -1,7 +1,11 @@
 import express, { Response } from "express";
 import { getRouteById } from "../busRoutes/bus_routes";
 import { generateScheduleUUID } from "../helper/uuid_generator";
-import { createSchedule, getAllSchedules } from "../schedule/schedule";
+import {
+  createSchedule,
+  getAllSchedules,
+  getScheduleById,
+} from "../schedule/schedule";
 
 export const scheduleRouter = express.Router();
 
@@ -11,7 +15,7 @@ scheduleRouter.get("/", async (req, res) => {
 
 scheduleRouter.get("/:id", async (req, res) => {
   let id = req.params.id;
-  return res.json(await getRouteById(id));
+  return res.json(await getScheduleById(id));
 });
 
 scheduleRouter.post("/create", async (req, res) => {

@@ -30,3 +30,8 @@ export async function generateBookingUUID() {
   let genUUID = uuidv4();
   return genUUID.slice(0, 10);
 }
+
+export async function generatePaymentUUID() {
+  let genUUID = uuidv4();
+  return genUUID.slice(0, 12);
+}

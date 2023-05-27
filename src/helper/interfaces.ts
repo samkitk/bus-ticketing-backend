@@ -85,7 +85,7 @@ export interface CreateTicketInput {
   booking_id: string;
   schedule_id: string;
   bus_id: string;
-  seat_number: string;
+  seat_number: string | null;
   fare: Decimal;
   status: TicketStatus;
 }

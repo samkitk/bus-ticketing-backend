@@ -46,7 +46,6 @@ export async function verifyAuth(
     return res.status(401).json({ message: "Authorization header missing" });
   }
 
-  console.log("Header", authHeader);
   const token = authHeader.split(" ")[0];
   if (!token) {
     return res.status(401).json({ message: "Token missing" });

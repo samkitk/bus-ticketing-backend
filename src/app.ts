@@ -14,6 +14,9 @@ import { routeRouter } from "./router/routeRouter";
 import { busRouter } from "./router/busRouter";
 import { scheduleRouter } from "./router/scheduleRouter";
 import { validateEmail } from "./helper/validator";
+import { bookingRouter } from "./router/bookingRouter";
+import { paymentRouter } from "./router/paymentRouter";
+import { ticketRouter } from "./router/ticketRouter";
 
 const app = express();
 app.use(express.json());
@@ -76,6 +79,9 @@ app.use("/admin", verifyAdmin, adminRouter);
 app.use("/routes", routeRouter);
 app.use("/bus", busRouter);
 app.use("/schedule", scheduleRouter);
+app.use("/booking", bookingRouter);
+app.use("/payment", paymentRouter);
+app.use("/ticket", ticketRouter);
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");

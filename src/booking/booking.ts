@@ -52,3 +52,10 @@ export async function syncTotalFare(id: string) {
   let total_fare = await getTotalPendingFareByBookingId(id);
   let booking = await updateBooking(id, { id, total_fare });
 }
+
+export async function isValidBooking(id: string) {
+  let booking = await getBookingById(id);
+  if (booking == null) return false;
+  if (booking.status == BookingStatus.CANCELLED) return false;
+  return true;
+}

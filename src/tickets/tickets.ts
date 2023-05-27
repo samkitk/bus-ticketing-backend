@@ -1,5 +1,9 @@
 import { Decimal } from "@prisma/client/runtime";
-import { createBooking, syncTotalFare } from "../booking/booking";
+import {
+  createBooking,
+  isValidBooking,
+  syncTotalFare,
+} from "../booking/booking";
 import { CreateTicketInput, TicketStatus } from "../helper/interfaces";
 import { prisma } from "../helper/prisma_helper";
 
@@ -114,7 +118,10 @@ export async function getAvailableSeats(schedule_id: string) {
 }
 
 export async function updateTicketStatus(id: string, status: TicketStatus) {
-  return await prisma.ticket.update({ where: { id }, data: { status } });
+  return await prisma.ticket.update({
+    where: { id },
+    data: { status: status },
+  });
 }
 
 export async function removeTicket(id: string) {
@@ -126,3 +133,13 @@ export async function removeTicket(id: string) {
   let sync_fare = await syncTotalFare(booking_id);
   return del;
 }
+
+// export async function checkIfTicketAlreadyExists(schedule_id:string, bus_id:string, seat_number:number) {
+//   return await prisma.ticket.findUnique({
+//     where: {
+//       schedule_id: schedule_id,
+//       bus_id: bus_id,
+//       seat_number: seat_number,
+//     },
+//   });
+// }
