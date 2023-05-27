@@ -8,33 +8,34 @@ datasource db {
 }
 
 model booking {
-  id          Int       @id @default(autoincrement())
-  user_id     Int?
-  schedule_id Int?
-  seat_id     Int?
+  id          String    @id @db.Uuid
+  user_id     String?   @db.Uuid
+  schedule_id String?   @db.VarChar(20)
+  bus_id      String?   @db.VarChar(255)
+  seat_number String?   @db.VarChar(255)
   fare        Decimal?  @db.Decimal(10, 2)
   status      String?   @db.VarChar(255)
   schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  seat        seat?     @relation(fields: [seat_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   payment     payment[]
 }
 
 model bus {
-  id       Int        @id @default(autoincrement())
-  capacity Int?
+  id       Int        @id
+  capacity Int
   schedule schedule[]
+  seat     seat[]
 }
 
 model payment {
-  id         Int      @id @default(autoincrement())
-  booking_id Int?
+  id         String   @id @db.Uuid
+  booking_id String?  @db.Uuid
   status     String?  @db.VarChar(255)
   booking    booking? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model route {
-  id             Int        @id @default(autoincrement())
+  id             String     @id @db.VarChar(20)
   source         String?    @db.VarChar(255)
   destination    String?    @db.VarChar(255)
   time_to_travel Int?
@@ -42,30 +43,30 @@ model route {
 }
 
 model schedule {
-  id             Int       @id @default(autoincrement())
+  id             String    @id @db.VarChar(20)
   bus_id         Int?
-  route_id       Int?
+  route_id       String?   @db.VarChar(20)
   departure_time DateTime? @db.Timestamp(6)
   arrival_time   DateTime? @db.Timestamp(6)
+  fare           Decimal?  @db.Decimal(10, 2)
   booking        booking[]
   bus            bus?      @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   route          route?    @relation(fields: [route_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  seat           seat[]
 }
 
 model seat {
-  id          Int       @id @default(autoincrement())
-  schedule_id Int?
-  status      String?   @db.VarChar(255)
-  booking     booking[]
-  schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          String   @id @db.VarChar(20)
+  seat_number String?  @db.VarChar(255)
+  bus_id      Int?
+  bookable    Boolean?
+  bus         bus?     @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model user {
-  id       Int       @id @default(autoincrement())
-  name     String?   @db.VarChar(255)
-  email    String?   @unique(map: "unique_email") @db.VarChar(255)
-  password String?   @db.VarChar(255)
+  id       String    @id @db.Uuid
+  name     String    @db.VarChar(255)
+  email    String    @unique @db.VarChar(255)
+  password String    @db.VarChar(255)
   role     String?   @db.VarChar(255)
   booking  booking[]
 }

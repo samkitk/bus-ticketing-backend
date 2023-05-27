@@ -10,7 +10,6 @@ export async function createToken(user: User): Promise<string> {
     jwt_secret_key,
     { expiresIn: "1h" }
   );
-  console.log("Token", token);
   return token;
 }
 
@@ -22,7 +21,6 @@ export async function verifyToken(
     role: string;
     email: string;
   };
-  console.log("Decoded", decoded);
   return decoded;
 }
 
