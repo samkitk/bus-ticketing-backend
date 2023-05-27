@@ -8,16 +8,13 @@ datasource db {
 }
 
 model booking {
-  id          String    @id @db.Uuid
-  user_id     String?   @db.Uuid
-  schedule_id String?   @db.VarChar(20)
-  bus_id      String?   @db.VarChar(255)
-  fare        Decimal?  @db.Decimal(10, 2)
-  status      String?   @db.VarChar(255)
-  schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  User        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  payment     payment[]
-  ticket      ticket[]
+  id         String    @id @db.VarChar(20)
+  user_id    String?   @db.Uuid
+  total_fare Decimal?  @db.Decimal(10, 2)
+  status     String?   @db.VarChar(255)
+  User       user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment    payment[]
+  ticket     ticket[]
 }
 
 model bus {
@@ -28,8 +25,8 @@ model bus {
 }
 
 model payment {
-  id         String   @id @db.Uuid
-  booking_id String?  @db.Uuid
+  id         String   @id @db.VarChar(30)
+  booking_id String?  @db.VarChar(20)
   status     String?  @db.VarChar(255)
   booking    booking? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -43,15 +40,15 @@ model route {
 }
 
 model schedule {
-  id             String    @id @db.VarChar(20)
+  id             String   @id @db.VarChar(20)
   bus_id         Int?
-  route_id       String?   @db.VarChar(20)
-  departure_time String?   @db.VarChar(255)
-  arrival_time   String?   @db.VarChar(255)
-  fare           Decimal?  @db.Decimal(10, 2)
-  booking        booking[]
-  bus            bus?      @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  route          route?    @relation(fields: [route_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  route_id       String?  @db.VarChar(20)
+  departure_time String?  @db.VarChar(255)
+  arrival_time   String?  @db.VarChar(255)
+  fare           Decimal? @db.Decimal(10, 2)
+  bus            bus?     @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  route          route?   @relation(fields: [route_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ticket         ticket[]
 }
 
 model seat {
@@ -69,13 +66,19 @@ model user {
   password String    @db.VarChar(255)
   role     String?   @db.VarChar(255)
   booking  booking[]
+  ticket   ticket[]
 }
 
 model ticket {
-  id          String   @id @db.Uuid
-  booking_id  String?  @db.Uuid
-  seat_number String?  @db.VarChar(255)
-  fare        Decimal? @db.Decimal(10, 2)
-  status      String?  @db.VarChar(255)
-  booking     booking? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          String    @id @db.VarChar(20)
+  user_id     String?   @db.Uuid
+  booking_id  String?   @db.VarChar(20)
+  schedule_id String?   @db.VarChar(20)
+  bus_id      String?   @db.VarChar(255)
+  seat_number String?   @db.VarChar(255)
+  fare        Decimal?  @db.Decimal(10, 2)
+  status      String?   @db.VarChar(255)
+  booking     booking?  @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
