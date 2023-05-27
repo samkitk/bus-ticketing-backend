@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model booking {
+  id          Int       @id @default(autoincrement())
+  user_id     Int?
+  schedule_id Int?
+  seat_id     Int?
+  fare        Decimal?  @db.Decimal(10, 2)
+  status      String?   @db.VarChar(255)
+  schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  seat        seat?     @relation(fields: [seat_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payment     payment[]
+}
+
+model bus {
+  id       Int        @id @default(autoincrement())
+  capacity Int?
+  schedule schedule[]
+}
+
+model payment {
+  id         Int      @id @default(autoincrement())
+  booking_id Int?
+  status     String?  @db.VarChar(255)
+  booking    booking? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model route {
+  id             Int        @id @default(autoincrement())
+  source         String?    @db.VarChar(255)
+  destination    String?    @db.VarChar(255)
+  time_to_travel Int?
+  schedule       schedule[]
+}
+
+model schedule {
+  id             Int       @id @default(autoincrement())
+  bus_id         Int?
+  route_id       Int?
+  departure_time DateTime? @db.Timestamp(6)
+  arrival_time   DateTime? @db.Timestamp(6)
+  booking        booking[]
+  bus            bus?      @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  route          route?    @relation(fields: [route_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  seat           seat[]
+}
+
+model seat {
+  id          Int       @id @default(autoincrement())
+  schedule_id Int?
+  status      String?   @db.VarChar(255)
+  booking     booking[]
+  schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user {
+  id       Int       @id @default(autoincrement())
+  name     String?   @db.VarChar(255)
+  email    String?   @unique(map: "unique_email") @db.VarChar(255)
+  password String?   @db.VarChar(255)
+  role     String?   @db.VarChar(255)
+  booking  booking[]
+}
