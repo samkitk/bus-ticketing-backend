@@ -12,12 +12,12 @@ model booking {
   user_id     String?   @db.Uuid
   schedule_id String?   @db.VarChar(20)
   bus_id      String?   @db.VarChar(255)
-  seat_number String?   @db.VarChar(255)
   fare        Decimal?  @db.Decimal(10, 2)
   status      String?   @db.VarChar(255)
   schedule    schedule? @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   payment     payment[]
+  ticket      ticket[]
 }
 
 model bus {
@@ -69,4 +69,13 @@ model user {
   password String    @db.VarChar(255)
   role     String?   @db.VarChar(255)
   booking  booking[]
+}
+
+model ticket {
+  id          String   @id @db.Uuid
+  booking_id  String?  @db.Uuid
+  seat_number String?  @db.VarChar(255)
+  fare        Decimal? @db.Decimal(10, 2)
+  status      String?  @db.VarChar(255)
+  booking     booking? @relation(fields: [booking_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
