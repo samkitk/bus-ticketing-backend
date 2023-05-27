@@ -8,7 +8,7 @@ export async function createToken(user: User): Promise<string> {
   let token = jwt.sign(
     { id: user.id, role: user.role, email: user.email },
     jwt_secret_key,
-    { expiresIn: "1h" }
+    { expiresIn: "6h" }
   );
   return token;
 }

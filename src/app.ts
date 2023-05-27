@@ -8,8 +8,12 @@ import {
 import { CustomRequest, Role, User } from "./helper/interfaces";
 import { verifyAdmin, verifyAuth } from "./middleware/authorisation";
 import { createUser, findExistingUser } from "./user/user";
-import { adminRouter } from "./router/adminRoutes";
-import { generateUserUUID } from "./helper/uuid-generator";
+import { adminRouter } from "./router/adminRouter";
+import { generateUserUUID } from "./helper/uuid_generator";
+import { routeRouter } from "./router/routeRouter";
+import { busRouter } from "./router/busRouter";
+import { scheduleRouter } from "./router/scheduleRouter";
+import { validateEmail } from "./helper/validator";
 
 const app = express();
 app.use(express.json());
@@ -37,6 +41,13 @@ app.post("/login", async (req: Request, res: Response) => {
 app.post("/signup", async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
 
+  let isEmailValid = await validateEmail(email);
+
+  if (!isEmailValid) {
+    console.log("Email is not valid");
+    return res.status(400).json({ message: "Email is not valid" });
+  }
+
   const existingUser = await findExistingUser(email);
   if (existingUser) {
     return res.status(400).json({ message: "User with email already exists" });
@@ -49,7 +60,7 @@ app.post("/signup", async (req: Request, res: Response) => {
     name,
     email,
     password: hashedPassword,
-    role: Role.USER,
+    role: Role.ADMIN,
   };
 
   try {
@@ -62,6 +73,9 @@ app.post("/signup", async (req: Request, res: Response) => {
 });
 
 app.use("/admin", verifyAdmin, adminRouter);
+app.use("/routes", routeRouter);
+app.use("/bus", busRouter);
+app.use("/schedule", scheduleRouter);
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");

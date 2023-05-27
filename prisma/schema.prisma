@@ -21,7 +21,7 @@ model booking {
 }
 
 model bus {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   capacity Int
   schedule schedule[]
   seat     seat[]
@@ -46,8 +46,8 @@ model schedule {
   id             String    @id @db.VarChar(20)
   bus_id         Int?
   route_id       String?   @db.VarChar(20)
-  departure_time DateTime? @db.Timestamp(6)
-  arrival_time   DateTime? @db.Timestamp(6)
+  departure_time String?   @db.VarChar(255)
+  arrival_time   String?   @db.VarChar(255)
   fare           Decimal?  @db.Decimal(10, 2)
   booking        booking[]
   bus            bus?      @relation(fields: [bus_id], references: [id], onDelete: NoAction, onUpdate: NoAction)

@@ -2,7 +2,13 @@ import { CreateScheduleInput, UpdateScheduleInput } from "../helper/interfaces";
 import { prisma } from "../helper/prisma_helper";
 
 export async function createSchedule(data: CreateScheduleInput) {
-  return await prisma.schedule.create({ data });
+  try {
+    let schedule = await prisma.schedule.create({ data });
+    return schedule;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
 
 export async function updateSchedule(
@@ -18,4 +24,8 @@ export async function deleteSchedule(scheduleId: string) {
 
 export async function getScheduleById(scheduleId: string) {
   return await prisma.schedule.findUnique({ where: { id: scheduleId } });
+}
+
+export async function getAllSchedules() {
+  return await prisma.schedule.findMany();
 }

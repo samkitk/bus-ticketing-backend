@@ -23,7 +23,6 @@ export enum Role {
 }
 
 export interface CreateBusInput {
-  id: number;
   capacity: number;
 }
 
@@ -49,8 +48,8 @@ export interface CreateScheduleInput {
   id: string;
   bus_id: number;
   route_id: string;
-  departure_time: Date;
-  arrival_time: Date;
+  departure_time: string;
+  arrival_time: string;
   fare: Decimal;
 }
 
@@ -58,7 +57,7 @@ export interface UpdateScheduleInput {
   id: string;
   bus_id?: number;
   route_id?: string;
-  departure_time?: Date;
-  arrival_time?: Date;
+  departure_time?: string;
+  arrival_time?: string;
   fare?: Decimal;
 }

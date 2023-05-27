@@ -4,7 +4,7 @@ import { createSeatsForBus } from "../seats/seats";
 
 export async function createBus(data: CreateBusInput) {
   let bus = await prisma.bus.create({ data });
-  let seats = await createSeatsForBus(data.id);
+  let seats = await createSeatsForBus(bus.id);
 
   return bus;
 }
