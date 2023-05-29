@@ -1,0 +1,438 @@
+{
+  "info": {
+    "_postman_id": "578b4f6c-5f5b-4955-85a8-0409b543a2b5",
+    "name": "RedBus Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21382497"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "/admin",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/admin/ping",
+              "host": ["{{url}}"],
+              "path": ["admin", "ping"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/SignUp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\":\"Samkit Normal Account\",\n    \"email\":\"samkit_normal@gmail.com\",\n    \"password\":\"testyo12\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/signup",
+              "host": ["{{url}}"],
+              "path": ["signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\":\"samkit_normal@gmail.com\",\n    \"password\":\"testyo12\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/login",
+              "host": ["{{url}}"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Create Bus/Routes/Schedules",
+      "item": [
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"bus_id\":1,\n    \"route_id\": \"0a\",\n    \"departure_time\": \"2023-01-01T12:00:00.000Z\",\n    \"fare\": 100.40\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/schedule/create",
+              "host": ["{{url}}"],
+              "path": ["schedule", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Bus",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"capacity\": 80\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/bus/create",
+              "host": ["{{url}}"],
+              "path": ["bus", "create"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Route",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{normal_user_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"source\":\"Chennai\",\n    \"destination\": \"Bangalore\",\n    \"time_to_travel\": 700\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/routes/create",
+              "host": ["{{url}}"],
+              "path": ["routes", "create"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Get Details",
+      "item": [
+        {
+          "name": "Get All Schedules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/schedule/",
+              "host": ["{{url}}"],
+              "path": ["schedule", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Routes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/routes/",
+              "host": ["{{url}}"],
+              "path": ["routes", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Bus",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/bus/",
+              "host": ["{{url}}"],
+              "path": ["bus", ""]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Booking Session",
+      "item": [
+        {
+          "name": "Initiate Booking Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{normal_user_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/booking/initiate",
+              "host": ["{{url}}"],
+              "path": ["booking", "initiate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View Booking Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{normal_user_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"booking_id\":\"975f3c8c-e\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/booking/view",
+              "host": ["{{url}}"],
+              "path": ["booking", "view"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Booking Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"booking_id\":\"182c3faa-1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/booking/cancel",
+              "host": ["{{url}}"],
+              "path": ["booking", "cancel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Booking Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{normal_user_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"booking_id\":\"975f3c8c-e\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/booking/confirm",
+              "host": ["{{url}}"],
+              "path": ["booking", "confirm"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tickets",
+      "item": [
+        {
+          "name": "Check Available Seats for a Schedule",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/ticket/41566c/available-seats",
+              "host": ["{{url}}"],
+              "path": ["ticket", "41566c", "available-seats"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Ticket to Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"booking_id\":\"975f3c8c-e\",\n    \"schedule_id\":\"41566c\",\n    \"seat_number\": \"17\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/ticket/add",
+              "host": ["{{url}}"],
+              "path": ["ticket", "add"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Ticket from Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ticket_id\":\"407620eb\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/ticket/remove",
+              "host": ["{{url}}"],
+              "path": ["ticket", "remove"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Payment Success",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/payment/success?payment_id=abbcb74d-974",
+              "host": ["{{url}}"],
+              "path": ["payment", "success"],
+              "query": [
+                {
+                  "key": "payment_id",
+                  "value": "abbcb74d-974"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
