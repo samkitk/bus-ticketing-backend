@@ -5,6 +5,7 @@ import {
   getRouteById,
 } from "../busRoutes/bus_routes";
 import { generateRouteUUID } from "../helper/uuid_generator";
+import { verifyAdmin } from "../middleware/authorisation";
 
 export const routeRouter = express.Router();
 
@@ -16,7 +17,7 @@ routeRouter.get("/:id", async (req, res) => {
   return res.json(await getRouteById(req.params.id));
 });
 
-routeRouter.post("/create", async (req, res) => {
+routeRouter.post("/create", verifyAdmin, async (req, res) => {
   let { source, destination, time_to_travel } = req.body;
 
   let id = await generateRouteUUID();

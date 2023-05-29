@@ -6,6 +6,7 @@ import {
   getAllSchedules,
   getScheduleById,
 } from "../schedule/schedule";
+import { verifyAdmin } from "../middleware/authorisation";
 
 export const scheduleRouter = express.Router();
 
@@ -18,7 +19,7 @@ scheduleRouter.get("/:id", async (req, res) => {
   return res.json(await getScheduleById(id));
 });
 
-scheduleRouter.post("/create", async (req, res) => {
+scheduleRouter.post("/create", verifyAdmin, async (req, res) => {
   let { bus_id, route_id, departure_time, fare, id } = req.body;
 
   if (!id) {

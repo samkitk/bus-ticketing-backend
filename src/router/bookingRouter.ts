@@ -127,6 +127,10 @@ bookingRouter.post("/confirm", verifyAuth, async (req: CustomRequest, res) => {
     return res.status(500).json({ message: "Booking already cancelled" });
   }
 
+  if (booking.status == BookingStatus.CONFIRMED) {
+    return res.status(500).json({ message: "Booking already confirmed" });
+  }
+
   let data = {
     id: await generatePaymentUUID(),
     booking_id: booking_id,
